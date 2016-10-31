@@ -1,0 +1,36 @@
+﻿<Window x:Class="HaTaggerGUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HaTaggerGUI"
+        xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+        mc:Ignorable="d"
+        Title="HaTagger" Height="350" Width="525" Icon="HaLogo.ico">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <local:FocusableListView x:Name="fileView" Grid.Row="0"
+                  ItemsSource="{Binding LoadedFiles}"
+                  dd:DragDrop.IsDropTarget="True" dd:DragDrop.DropHandler="{Binding DropHandler}" KeyDown="fileView_KeyDown">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Filename" DisplayMemberBinding="{Binding Filename}" Width="Auto"/>
+                    <GridViewColumn Header="Tags" DisplayMemberBinding="{Binding Tags, UpdateSourceTrigger=PropertyChanged}" Width="Auto"/>
+                </GridView>
+            </ListView.View>
+        </local:FocusableListView>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox Name="tagsBox" Grid.Column="0" FontSize="15" />
+            <Button Name="updateSelectedButton" Grid.Column="1" Content="Update Selected" Padding="5" Click="updateSelectedButton_Click" />
+            <Button Name="updateAllButton" Grid.Column="2" Content="Update All" Padding="5" Click="updateAllButton_Click" />
+        </Grid>
+    </Grid>
+</Window>

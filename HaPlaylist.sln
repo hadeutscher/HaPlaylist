@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HaPlaylist", "HaPlaylist\HaPlaylist.csproj", "{92263312-8D1A-44F3-9FBD-0CD180C9AB1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HaTagger", "HaTagger\HaTagger.csproj", "{EA9A8558-6D73-462F-ADEA-D840E4BC68C6}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "HaTagLib", "HaTagLib\HaTagLib.shproj", "{E86EE2EF-741F-40AF-B2F4-09FE7ADFEFD6}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "HaSyntaxLib", "HaSyntax\HaSyntaxLib.shproj", "{A9CACEF2-9971-487F-A38A-44C1DA69B228}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HaTests", "HaTests\HaTests.csproj", "{59B3CB55-2AE8-4EED-9F78-A60560F0F89F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HaTaggerGUI", "HaTaggerGUI\HaTaggerGUI.csproj", "{43679990-0FD6-4705-B35E-6CE40F16C767}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GongSolutions.Wpf.DragDrop (NET4)", "gong-wpf-dragdrop\GongSolutions.Wpf.DragDrop\GongSolutions.Wpf.DragDrop (NET4).csproj", "{0C6674CC-6D49-414A-9B41-D4E175028FFB}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		HaSyntax\HaSyntax.projitems*{43679990-0fd6-4705-b35e-6ce40f16c767}*SharedItemsImports = 4
+		HaTagLib\HaTagLib.projitems*{43679990-0fd6-4705-b35e-6ce40f16c767}*SharedItemsImports = 4
+		HaSyntax\HaSyntax.projitems*{59b3cb55-2ae8-4eed-9f78-a60560f0f89f}*SharedItemsImports = 4
+		HaSyntax\HaSyntax.projitems*{92263312-8d1a-44f3-9fbd-0cd180c9ab1a}*SharedItemsImports = 4
+		HaTagLib\HaTagLib.projitems*{92263312-8d1a-44f3-9fbd-0cd180c9ab1a}*SharedItemsImports = 4
+		HaSyntax\HaSyntax.projitems*{a9cacef2-9971-487f-a38a-44c1da69b228}*SharedItemsImports = 13
+		HaTagLib\HaTagLib.projitems*{e86ee2ef-741f-40af-b2f4-09fe7adfefd6}*SharedItemsImports = 13
+		HaSyntax\HaSyntax.projitems*{ea9a8558-6d73-462f-adea-d840e4bc68c6}*SharedItemsImports = 4
+		HaTagLib\HaTagLib.projitems*{ea9a8558-6d73-462f-adea-d840e4bc68c6}*SharedItemsImports = 4
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92263312-8D1A-44F3-9FBD-0CD180C9AB1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92263312-8D1A-44F3-9FBD-0CD180C9AB1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92263312-8D1A-44F3-9FBD-0CD180C9AB1A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{92263312-8D1A-44F3-9FBD-0CD180C9AB1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92263312-8D1A-44F3-9FBD-0CD180C9AB1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92263312-8D1A-44F3-9FBD-0CD180C9AB1A}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{EA9A8558-6D73-462F-ADEA-D840E4BC68C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA9A8558-6D73-462F-ADEA-D840E4BC68C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA9A8558-6D73-462F-ADEA-D840E4BC68C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA9A8558-6D73-462F-ADEA-D840E4BC68C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59B3CB55-2AE8-4EED-9F78-A60560F0F89F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59B3CB55-2AE8-4EED-9F78-A60560F0F89F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59B3CB55-2AE8-4EED-9F78-A60560F0F89F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59B3CB55-2AE8-4EED-9F78-A60560F0F89F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43679990-0FD6-4705-B35E-6CE40F16C767}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43679990-0FD6-4705-B35E-6CE40F16C767}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43679990-0FD6-4705-B35E-6CE40F16C767}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43679990-0FD6-4705-B35E-6CE40F16C767}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C6674CC-6D49-414A-9B41-D4E175028FFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C6674CC-6D49-414A-9B41-D4E175028FFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C6674CC-6D49-414A-9B41-D4E175028FFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C6674CC-6D49-414A-9B41-D4E175028FFB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
