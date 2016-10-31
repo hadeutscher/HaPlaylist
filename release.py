@@ -11,7 +11,7 @@ import shutil
 import sys
 
 PROD_DIR = "Production"
-RELEASE_DIRS = [r"HaTagger\bin\Release"]
+RELEASE_DIRS = [r"HaTagger\bin\Release", r"HaTaggerGUI\bin\Release"]
 
 DEBUG = len(sys.argv) > 1 and sys.argv[1] == "-g"
 
