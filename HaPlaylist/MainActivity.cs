@@ -16,6 +16,8 @@ using Java.Interop;
 using HaTagLib;
 using Android.Widget;
 using System.Linq;
+using HaSyntaxLib;
+using Android.Net;
 
 namespace HaPlaylist
 {
@@ -29,7 +31,7 @@ namespace HaPlaylist
         private string[] saved_names = new string[0];
         private string[] saved_values = new string[0];
 
-        private static string[] ConvertListToString(ICollection<string> x)
+        private static string[] ConvertListToStringArray(ICollection<string> x)
         {
             string[] result = new string[x.Count];
             x.CopyTo(result, 0);
@@ -44,10 +46,9 @@ namespace HaPlaylist
             SetContentView(Resource.Layout.Main);
 
             ISharedPreferences prefs = GetSharedPreferences(SETTINGS_NAME, FileCreationMode.Private);
-            saved_names = ConvertListToString(prefs.GetStringSet(SPINNER_NAMES, new string[0]));
-            saved_values = ConvertListToString(prefs.GetStringSet(SPINNER_VALUES, new string[0]));
-            ArrayAdapter adapter = (ArrayAdapter)ArrayAdapter.FromArray<string>(saved_names);
-            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleDropDownItem1Line);
+            saved_names = ConvertListToStringArray(prefs.GetStringSet(SPINNER_NAMES, new string[0]));
+            saved_values = ConvertListToStringArray(prefs.GetStringSet(SPINNER_VALUES, new string[0]));
+            ArrayAdapter adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleDropDownItem1Line, saved_names);
             Spinner spinner = FindViewById<Spinner>(Resource.Id.templateSpinner);
             spinner.Adapter = adapter;
         }
@@ -64,33 +65,44 @@ namespace HaPlaylist
             }
         }
 
-        [Export("powerampButtonClick")]
-        public void powerampButtonClick(View v)
+        private void createPlaylist()
         {
-            using (StreamWriter sw = File.CreateText("/sdcard/Music/haplaylist.m3u8"))
+            HaSyntax syntax = new HaSyntax(FindViewById<EditText>(Resource.Id.queryInput).Text);
+            string music_folder = Environment.GetExternalStoragePublicDirectory(Environment.DirectoryMusic).AbsolutePath;
+            string playlist_path = Path.Combine(music_folder, "haplaylist.m3u8");
+            using (StreamWriter sw = File.CreateText(playlist_path))
             {
-                foreach (FileInfo fi in new DirectoryInfo("/sdcard/Music").GetFiles())
+                foreach (string file in Utils.ExpandDirectories(new string[] { music_folder }))
                 {
                     try
                     {
-                        using (IHaTagger ht = TaggerFactory.CreateTagger(fi.FullName))
+                        using (IHaTagger ht = TaggerFactory.CreateTagger(file, false))
                         {
-                            if (ht.Tags.Contains("test"))
+                            if (syntax.Validate(ht.Tags))
                             {
-                                sw.WriteLine(fi.FullName);
+                                sw.WriteLine(file);
                             }
                         }
                     }
                     catch (HaException) { }
                 }
             }
-            StartPoweramp();
+            Intent intent = new Intent(Intent.ActionMediaScannerScanFile);
+            intent.SetData(Uri.FromFile(new Java.IO.File(playlist_path)));
+            SendBroadcast(intent);
+        }
+
+        [Export("powerampButtonClick")]
+        public void powerampButtonClick(View v)
+        {
+            createPlaylist();
+            startPoweramp();
         }
 
         [Export("saveTemplateClick")]
         public void saveTemplateClick(View v)
         {
-            //saved_names
+            // TODO
         }
 
         private long GetPlaylistId()
@@ -113,7 +125,7 @@ namespace HaPlaylist
             throw new HaException("Could not find playlist");
         }
 
-        public void StartPoweramp()
+        private void startPoweramp()
         {
             try
             {
@@ -133,7 +145,7 @@ namespace HaPlaylist
             }
         }
 
-        public static Intent CreateExplicitFromImplicitIntent(Context context, Intent implicitIntent)
+        private static Intent CreateExplicitFromImplicitIntent(Context context, Intent implicitIntent)
         {
             // Retrieve all services that can match the given intent
             PackageManager pm = context.PackageManager;

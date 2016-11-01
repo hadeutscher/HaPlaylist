@@ -12,6 +12,7 @@ import sys
 
 PROD_DIR = "Production"
 RELEASE_DIRS = [r"HaTagger\bin\Release", r"HaTaggerGUI\bin\Release"]
+APK_PATH = r"HaPlaylist\obj\Release\android\bin\HaPlaylist.HaPlaylist.apk"
 
 DEBUG = len(sys.argv) > 1 and sys.argv[1] == "-g"
 
@@ -19,6 +20,7 @@ def whitelist(f):
     return (f.endswith(".exe.config") and not f.endswith(".vshost.exe.config")) or \
            (f.endswith(".exe") and not f.endswith(".vshost.exe")) or \
            f.endswith(".dll") or \
+           f.endswith(".apk") or \
            (DEBUG and f.endswith(".pdb"))
 
 def main():
@@ -33,6 +35,7 @@ def main():
             for f in files:
                 if whitelist(f):
                     shutil.copyfile(os.path.join(rls_path, f), os.path.join(prod_path, f))
+    shutil.copyfile(APK_PATH, os.path.join(PROD_DIR, os.path.split(APK_PATH)[1]))
 
 if __name__ == "__main__":
     main()
