@@ -21,6 +21,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/powerampButton"
             android:onClick="powerampButtonClick" />
+        <Button
+            android:text="Open in other players"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/otherPlayersButton"
+            android:onClick="otherPlayersButtonClick"/>
     </LinearLayout>
     <Button
         android:layout_alignParentBottom="true"
