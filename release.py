@@ -12,7 +12,7 @@ import sys
 
 PROD_DIR = "Production"
 RELEASE_DIRS = [r"HaTagger\bin\Release", r"HaTaggerGUI\bin\Release"]
-APK_PATH = r"HaPlaylist\obj\Release\android\bin\HaPlaylist.HaPlaylist.apk"
+APK_PATH = r"HaPlaylist\obj\Release\android\bin\com.haha01haha01.haplaylist.apk"
 
 DEBUG = len(sys.argv) > 1 and sys.argv[1] == "-g"
 
