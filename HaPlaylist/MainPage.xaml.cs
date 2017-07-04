@@ -10,6 +10,7 @@ using HaPlaylist.Grammar;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -47,12 +48,22 @@ namespace HaPlaylist
             }
         }
 
-        async Task<IEnumerable<string>> SearchSongs(SongLibrary library, string query)
+        async Task<IEnumerable<string>> SearchSongs()
         {
+            // For reference, this is not just an ugly hack made out of laziness - I went and coded the entire thing
+            // with pure async IO calls, going all the way down to TagLib. Ran it and theres a 50% chance statistical
+            // crash coming from inside the implementation of await callbacks.
+            // Fuck Xamarin.
+
             data.IsLoading = true;
+            SongLibrary library = null;
+            new Thread(new ThreadStart(() => library = data.MediaProvider.LoadLibrary())).Start();
+            while (library == null)
+                await Task.Delay(10);
+
             try
             {
-                return SearchSongsInternal(library, query).Select(x => x.Path);
+                return SearchSongsInternal(library, data.Query).Select(x => x.Path);
             }
             catch (InputMismatchException)
             {
@@ -71,14 +82,14 @@ namespace HaPlaylist
 
         private async void PowerAMP_Clicked(object sender, EventArgs e)
         {
-            var playlist = await SearchSongs(data.MediaProvider.LoadLibrary(), data.Query);
+            var playlist = await SearchSongs();
             if (playlist != null)
                 data.MediaProvider.LaunchPowerAMP(playlist);
         }
 
         private async void Other_Clicked(object sender, EventArgs e)
         {
-            var playlist = await SearchSongs(data.MediaProvider.LoadLibrary(), data.Query);
+            var playlist = await SearchSongs();
             if (playlist != null)
                 data.MediaProvider.LaunchMediaPlayer(playlist);
         }
