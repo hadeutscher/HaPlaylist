@@ -13,6 +13,7 @@ namespace HaTagLib
     public class FlacTagger : IHaTagger
     {
         private SortedSet<string> tags = new SortedSet<string>();
+        private Dictionary<string, string> valueTags = new Dictionary<string, string>();
         private OpenFileDescriptor f = null;
         private TagLib.Ogg.XiphComment t = null;
         private bool dirty = false;
@@ -25,6 +26,10 @@ namespace HaTagLib
             {
                 SafeClose();
                 throw new HaException("FLAC file has no Xiph tag");
+            }
+            foreach (string tagName in t)
+            {
+                valueTags.Add(tagName.ToLower(), t.GetFirstField(tagName).ToLower());
             }
             string data = t.GetFirstField("hatag");
             if (data != null)
@@ -44,10 +49,12 @@ namespace HaTagLib
 
         public IEnumerable<string> Tags
         {
-            get
-            {
-                return tags;
-            }
+            get => tags;
+        }
+
+        public IDictionary<string, string> ValueTags
+        {
+            get => valueTags;
         }
 
         public void AddTag(string tag)
@@ -65,7 +72,6 @@ namespace HaTagLib
                 dirty = true;
             }
         }
-
 
         public void Save()
         {

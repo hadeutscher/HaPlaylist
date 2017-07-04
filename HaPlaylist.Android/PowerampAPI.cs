@@ -7,7 +7,7 @@
 using Android.Content;
 using Android.Net;
 
-namespace HaPlaylist
+namespace HaPlaylist.Droid
 {
     public sealed class PowerampAPI
     {

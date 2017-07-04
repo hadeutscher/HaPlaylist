@@ -18,7 +18,7 @@ using Android.Widget;
 using Android.Database.Sqlite;
 using Android.Database;
 
-namespace HaPlaylist
+namespace HaPlaylist.Droid
 {
     public class TemplatesDB : SQLiteOpenHelper
     {
@@ -32,7 +32,7 @@ namespace HaPlaylist
                 KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 KEY_NAME + " TEXT, " +
                 KEY_VALUE + " TEXT);";
-        private static readonly Tuple<string, string>[] DEFAULT_TEMPLATES = { new Tuple<string, string>("<Custom Query>", ""), new Tuple<string, string>("All Music", "true") };
+        private static readonly Template[] DEFAULT_TEMPLATES = { new Template("<Custom Query>", ""), new Template("All Music", "true") };
 
         public TemplatesDB(Context context) : base(context, "settings", null, 1)
         {
@@ -41,11 +41,11 @@ namespace HaPlaylist
         public override void OnCreate(SQLiteDatabase db)
         {
             db.ExecSQL(TABLE_CREATE);
-            foreach (Tuple<string, string> template in DEFAULT_TEMPLATES)
+            foreach (Template template in DEFAULT_TEMPLATES)
             {
                 ContentValues c = new ContentValues();
-                c.Put(KEY_NAME, template.Item1);
-                c.Put(KEY_VALUE, template.Item2);
+                c.Put(KEY_NAME, template.Name);
+                c.Put(KEY_VALUE, template.Value);
                 db.InsertOrThrow(TABLE_NAME, null, c);
             }
         }
@@ -54,9 +54,9 @@ namespace HaPlaylist
         {
         }
 
-        public List<Tuple<string, string>> GetData()
+        public List<Template> GetData()
         {
-            List<Tuple<string, string>> result = new List<Tuple<string, string>>();
+            var result = new List<Template>();
             using (ICursor c = ReadableDatabase.Query(TABLE_NAME, new string[] { KEY_ID, KEY_NAME, KEY_VALUE }, null, null, null, null, KEY_ID))
             {
                 if (c != null)
@@ -65,18 +65,18 @@ namespace HaPlaylist
                     int value_idx = c.GetColumnIndexOrThrow(KEY_VALUE);
                     while (c.MoveToNext())
                     {
-                        result.Add(new Tuple<string, string>(c.GetString(name_idx), c.GetString(value_idx)));
+                        result.Add(new Template(c.GetString(name_idx), c.GetString(value_idx)));
                     }
                 }
             }
             return result;
         }
 
-        public void AddData(string name, string value)
+        public void AddData(Template template)
         {
             ContentValues c = new ContentValues();
-            c.Put(KEY_NAME, name);
-            c.Put(KEY_VALUE, value);
+            c.Put(KEY_NAME, template.Name);
+            c.Put(KEY_VALUE, template.Value);
             WritableDatabase.InsertOrThrow(TABLE_NAME, null, c);
         }
 

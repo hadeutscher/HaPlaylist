@@ -9,11 +9,11 @@ namespace HaPlaylist
 {
 	public partial class App : Application
 	{
-		public App ()
+		public App (Data data)
 		{
 			InitializeComponent();
 
-			MainPage = new HaPlaylist.MainPage();
+			MainPage = new HaPlaylist.MainPage(data);
 		}
 
 		protected override void OnStart ()

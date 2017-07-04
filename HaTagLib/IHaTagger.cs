@@ -12,6 +12,7 @@ namespace HaTagLib
     public interface IHaTagger : IDisposable
     {
         IEnumerable<string> Tags { get; }
+        IDictionary<string, string> ValueTags { get; }
         void AddTag(string tag);
         void RemoveTag(string tag);
         void Save();

@@ -12,9 +12,24 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Data.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Grammar\BooleanExpressions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Grammar\EvaluationContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Grammar\Song.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Grammar\SongLibrary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Grammar\Visitors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HaGrammar\HaGrammarBaseListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HaGrammar\HaGrammarBaseVisitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HaGrammar\HaGrammarLexer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HaGrammar\HaGrammarListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HaGrammar\HaGrammarParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HaGrammar\HaGrammarVisitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IMediaProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)PropertyNotifierBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Template.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)MainPage.xaml">
@@ -25,5 +40,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)HaGrammar\HaGrammar.tokens" />
+    <None Include="$(MSBuildThisFileDirectory)HaGrammar\HaGrammarLexer.tokens" />
   </ItemGroup>
 </Project>
