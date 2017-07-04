@@ -52,7 +52,8 @@ namespace HaPlaylist
         {
             // For reference, this is not just an ugly hack made out of laziness - I went and coded the entire thing
             // with pure async IO calls, going all the way down to TagLib. Ran it and theres a 50% chance statistical
-            // crash coming from inside the implementation of await callbacks.
+            // crash coming from inside the implementation of await callbacks. So instead, we're just going to use
+            // the ol' running a separate thread and polling its return value method.
             // Fuck Xamarin.
 
             data.IsLoading = true;
