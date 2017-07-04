@@ -1,18 +1,27 @@
-﻿using Antlr4.Runtime;
+﻿/* Copyright (C) 2016 haha01haha01
+
+* This Source Code Form is subject to the terms of the Mozilla Public
+* License, v. 2.0. If a copy of the MPL was not distributed with this
+* file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 using HaPlaylist.Grammar;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace HaPlaylist
 {
-	public partial class MainPage : ContentPage
+    public partial class MainPage : ContentPage
 	{
         private Data data;
+
+        public MainPage() : this(null)
+        {
+        }
 
 		public MainPage(Data data)
 		{
@@ -38,35 +47,50 @@ namespace HaPlaylist
             }
         }
 
-        IEnumerable<string> SearchSongs(SongLibrary library, string query)
+        async Task<IEnumerable<string>> SearchSongs(SongLibrary library, string query)
         {
+            data.IsLoading = true;
             try
             {
                 return SearchSongsInternal(library, query).Select(x => x.Path);
             }
             catch (InputMismatchException)
             {
-                DisplayAlert("Error", "Bad input!", "OK");
+                await DisplayAlert("Error", "Bad input!", "OK");
             }
             catch (NoViableAltException)
             {
-                DisplayAlert("Error", "Other bad input!", "OK");
+                await DisplayAlert("Error", "Other bad input!", "OK");
+            }
+            finally
+            {
+                data.IsLoading = false;
             }
             return null;
         }
 
-        private void PowerAMP_Clicked(object sender, EventArgs e)
+        private async void PowerAMP_Clicked(object sender, EventArgs e)
         {
-            var playlist = SearchSongs(data.MediaProvider.LoadLibrary(), data.Query);
+            var playlist = await SearchSongs(data.MediaProvider.LoadLibrary(), data.Query);
             if (playlist != null)
                 data.MediaProvider.LaunchPowerAMP(playlist);
         }
 
-        private void Other_Clicked(object sender, EventArgs e)
+        private async void Other_Clicked(object sender, EventArgs e)
         {
-            var playlist = SearchSongs(data.MediaProvider.LoadLibrary(), data.Query);
+            var playlist = await SearchSongs(data.MediaProvider.LoadLibrary(), data.Query);
             if (playlist != null)
                 data.MediaProvider.LaunchMediaPlayer(playlist);
+        }
+
+        private async void Favorites_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new FavoritesPage(data));
+        }
+
+        private async void Save_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new SavePage(data));
         }
     }
 }

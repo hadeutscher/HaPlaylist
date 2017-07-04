@@ -132,6 +132,12 @@
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_save_white_48dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_favorite_border_white_48dp.png" />
+  </ItemGroup>
   <Import Project="..\HaTagLib\HaTagLib.projitems" Label="Shared" />
   <Import Project="..\HaSyntax\HaSyntax.projitems" Label="Shared" />
   <Import Project="..\HaPlaylist\HaPlaylist.projitems" Label="Shared" />

@@ -1,9 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:App3"
-             x:Class="HaPlaylist.MainPage">
-
+             xmlns:local="clr-namespace:HaPlaylist"
+             x:Class="HaPlaylist.MainPage"
+             Title="HaPlaylist">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="drawable/ic_favorite_border_white_48dp.png" Clicked="Favorites_Clicked" />
+        <ToolbarItem Icon="drawable/ic_save_white_48dp.png" Clicked="Save_Clicked" />
+    </ContentPage.ToolbarItems>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="3*" />
@@ -11,8 +15,8 @@
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         <Editor Grid.Row="0" Text="{Binding Query}" />
+        <ActivityIndicator Grid.Row="0" IsVisible="{Binding IsLoading}" IsRunning="{Binding IsLoading}" Color ="#80000000" />
         <Button Grid.Row="1" Text="PowerAMP" Clicked="PowerAMP_Clicked" />
         <Button Grid.Row="2" Text="Other" Clicked="Other_Clicked"/>
     </Grid>
-
 </ContentPage>

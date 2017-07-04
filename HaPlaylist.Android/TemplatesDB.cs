@@ -4,19 +4,10 @@
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using Android.Database.Sqlite;
 using Android.Database;
+using Android.Database.Sqlite;
+using System.Collections.Generic;
 
 namespace HaPlaylist.Droid
 {
@@ -32,7 +23,7 @@ namespace HaPlaylist.Droid
                 KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 KEY_NAME + " TEXT, " +
                 KEY_VALUE + " TEXT);";
-        private static readonly Template[] DEFAULT_TEMPLATES = { new Template("<Custom Query>", ""), new Template("All Music", "true") };
+        private static readonly Template[] DEFAULT_TEMPLATES = { new Template("Empty Query", ""), new Template("All Music", "true") };
 
         public TemplatesDB(Context context) : base(context, "settings", null, 1)
         {

@@ -12,7 +12,7 @@ namespace HaPlaylist.Grammar
         public Song(string path, EvaluationContext evaluationContext)
         {
             this.path = path;
-            this.evaluationContext = evaluationContext; // TODO: Load song's data
+            this.evaluationContext = evaluationContext;
         }
 
         public string Path { get => path; set => path = value; }

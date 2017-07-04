@@ -3,31 +3,31 @@
 * This Source Code Form is subject to the terms of the Mozilla Public
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-using System;
 
-using Android.App;
-using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using Android.OS;
-using Android.Annotation;
 using Android;
-using System.Linq;
+using Android.Annotation;
+using Android.App;
+using Android.Content;
+using Android.Content.PM;
+using Android.Database;
+using Android.OS;
+using Android.Provider;
+using Android.Webkit;
+using Android.Widget;
+using HaPlaylist.Grammar;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using Android.Content;
-using Android.Webkit;
-using Android.Database;
 using System.IO;
-using Android.Provider;
-using HaPlaylist.Grammar;
+using System.Linq;
 
 namespace HaPlaylist.Droid
 {
     [Activity(Label = "HaPlaylist", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity, IMediaProvider
     {
+        private Data data = new Data();
+
         #region Permissions
         [TargetApi(Value = 23)]
         private void RequestPermissions()
@@ -228,6 +228,29 @@ namespace HaPlaylist.Droid
         }
         #endregion
 
+        #region Settings
+        private const string SETTINGS_NAME = "hasettings";
+        private const string FREE_TEXT_QUERY = "free_text_query";
+
+        private void LoadConfig()
+        {
+            ISharedPreferences prefs = GetSharedPreferences(SETTINGS_NAME, FileCreationMode.Private);
+            string text = prefs.GetString(FREE_TEXT_QUERY, null);
+            if (text != null)
+                data.Query = text;
+        }
+
+        private void SaveConfig()
+        {
+            using (ISharedPreferencesEditor editor = GetSharedPreferences(SETTINGS_NAME, FileCreationMode.Private).Edit())
+            {
+                editor.PutString(FREE_TEXT_QUERY, data.Query);
+                editor.Commit();
+            }
+        }
+
+        #endregion
+
         public SongLibrary LoadLibrary()
         {
             var songs = new List<Song>();
@@ -258,13 +281,13 @@ namespace HaPlaylist.Droid
             StartViewIntent();
         }
 
-        private Data Initialize()
+        private void Initialize()
         {
             RequestPermissions();
-            var result = new Data() { MediaProvider = this };
-            LoadTemplates().ForEach(x => result.Templates.Add(x));
-            result.Templates.CollectionChanged += Templates_CollectionChanged;
-            return result;
+            data.MediaProvider = this;
+            LoadConfig();
+            LoadTemplates().ForEach(x => data.Templates.Add(x));
+            data.Templates.CollectionChanged += Templates_CollectionChanged;
         }
 
         protected override void OnCreate(Bundle bundle)
@@ -275,7 +298,15 @@ namespace HaPlaylist.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
-            LoadApplication(new HaPlaylist.App(Initialize()));
+            Initialize();
+            LoadApplication(new HaPlaylist.App(data));
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            SaveConfig();
         }
     }
 }
